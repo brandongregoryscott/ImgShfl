@@ -9,5 +9,5 @@ RUN pip3 install pillow
 
 CMD ["python3", "/bot/PollingService.py"]
 
-# docker build -t ImgShfl ~/ImgShfl/
-# docker run --name ImgShfl --restart=always --log-opt max-size=100k -v /home/brandon/ImgShfl/:/bot/ -d ImgShfl
+# docker build -t imgshfl ~/imgshfl/
+# docker run --name imgshfl --restart=always --log-opt max-size=100k -v /home/brandon/imgshfl/:/bot/ -d imgshfl
