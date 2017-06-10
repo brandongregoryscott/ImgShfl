@@ -1,0 +1,7 @@
+PollingService.py
+PostProcess.py
+botconfig.py
+.idea/
+__pycache__/
+*~
+
