@@ -1,4 +1,5 @@
 import random
+import sys
 from PIL import Image
 import requests  # For opening the image from a URL
 from io import BytesIO  # For opening the image from a URL
@@ -16,7 +17,7 @@ def main(argv):
 
     # Strip out the bot mention in the tweet text, and strip the extra whitespace
     tweet_text = str(tweet['text']).replace(botconfig.botMention, "").strip()
-
+    
     pattern = re.compile("[0-9]+[x][0-9]+")
 
     if pattern.match(tweet_text):
@@ -28,28 +29,38 @@ def main(argv):
     else:
         rows = random.randint(3, 12)
         columns = random.randint(3, 12)
-
     row_step = float(img.height / rows)
     column_step = float(img.width / columns)
 
     partitions = list()
 
+    # Iterate over the image and capture all of the partitions of the image
     for r in range(rows):
         for c in range(columns):
             left = math.ceil(c * column_step)
             upper = math.ceil(r * row_step)
             right = math.ceil((c + 1) * column_step)
             lower = math.ceil((r + 1) * row_step)
+            bounding_box = (left, upper, right, lower)
 
-            partition = img.crop((left, upper, right, lower))
+            partition = img.crop(bounding_box)
 
             partitions.append(partition)
 
-    random.shuffle(partitions)
+    # Now, iterate back over the image and paste a random partition
+    for r in range(rows):
+        for c in range(columns):
+            left = math.ceil(c * column_step)
+            upper = math.ceil(r * row_step)
+            right = math.ceil((c + 1) * column_step)
+            lower = math.ceil((r + 1) * row_step)
+            bounding_box = (left, upper, right, lower)
 
-    for partition in partitions:
-        img.paste(partition, partition.getbbox())
+            partition = partitions[random.randint(0, len(partitions) - 1)]
+            partitions.remove(partition)
+
+            img.paste(partition, bounding_box)
     return img
 
 if __name__ == "__main__":
-    main()
+    main(sys.argv)
