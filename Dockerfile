@@ -1,13 +1,13 @@
 FROM ubuntu
 MAINTAINER Brandon Scott
 
-RUN apt update -y -q
-RUN apt install -y -q git python3 python3-pip
-RUN pip3 install --upgrade pip
-RUN pip3 install twython
-RUN pip3 install pillow
-
-CMD ["python3", "/bot/PollingService.py"]
+RUN apt-get update -y -q && apt-get install -y -q git python3 python3-pip && git clone https://github.com/brandongregoryscott/twitterbot
+RUN pip3 install --upgrade pip setuptools
+RUN pip3 install twython pillow
+RUN cd twitterbot && python3 setup.py install && cd ..
+WORKDIR /imgshfl/
+CMD ["python3", "bot.py"]
 
 # docker build -t imgshfl ~/imgshfl/
-# docker run --name imgshfl --restart=always --log-opt max-size=1024kb -v /home/brandon/imgshfl/:/bot/ -v /home/brandon/imgshfl/out/:/out/ -d imgshfl
+# docker run --name imgshfl  --restart=always --log-opt max-size=1024kb --volume ~/output/imgshfl/:/out/ --volume ~/imgshfl/:/imgshfl/ -d imgshfl
+
