@@ -4,7 +4,6 @@ from PIL import Image, ImageDraw
 import requests  # For opening the image from a URL
 from io import BytesIO  # For opening the image from a URL
 import re  # For regular expression matching the tweet text
-import botconfig
 import math
 
 def factorize(num):
