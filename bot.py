@@ -65,7 +65,7 @@ class Bot(TwitterBot):
                                     'Jumbled, at best.',
                                     'All shuffled up, this is what your image looks like.',
                                     'Everything feels a little jumbled now.']
-
+    @ignore
     def on_scheduled_tweet(self):
         mention_user = random.choice(self.config['bots'])
         text = random.choice(self.config['tags'])
