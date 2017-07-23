@@ -54,7 +54,7 @@ def main(argv):
     img = Image.open(BytesIO(response.content))
 
     # Strip out the bot mention in the tweet text, and strip the extra whitespace
-    tweet_text = str(tweet['text']).replace(botconfig.botMention, "").strip()
+    tweet_text = str(tweet['text']).replace("@imgshflbot", "").strip()
 
     pattern = re.compile("[0-9]+[x][0-9]+")
 
