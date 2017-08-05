@@ -76,12 +76,13 @@ class Bot(TwitterBot):
     def on_mention(self, tweet, prefix):
         reply_user = tweet['user']['screen_name']
         if 'media' not in tweet['entities'].keys():
-            self.post_tweet(".@{0} Sorry, I don't see an image.".format(reply_user), reply_to=tweet)
+            while not self.post_tweet(".@{0} Sorry, I don't see an image.".format(reply_user), reply_to=tweet):
+                pass
         else:
             reply_img = module.main(tweet)
             text = random.choice(self.config['responses'])
-            self.post_tweet(".@{0} {1}".format(reply_user, text), reply_to=tweet,
-                            media=convert_image_to_bytes(reply_img))
+            while not self.post_tweet(".@{0} {1}".format(reply_user, text), reply_to=tweet, media=convert_image_to_bytes(reply_img)):
+                pass
 
     @ignore
     def on_timeline(self, tweet, prefix):
