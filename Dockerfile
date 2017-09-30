@@ -8,6 +8,6 @@ RUN cd twitterbot && python3 setup.py install && cd ..
 WORKDIR /bot/
 CMD ["python3", "bot.py"]
 
-# docker build -t imgshfl ~/imgshfl/
+# docker build --no-cache -t imgshfl ~/imgshfl/
 # docker run --name imgshfl -e TZ=America/New_York --restart=always --log-opt max-size=256kb --volume ~/output/imgshfl/:/out/ --volume ~/imgshfl/:/bot/ -d imgshfl
 
