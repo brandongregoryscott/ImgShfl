@@ -76,7 +76,6 @@ class Bot(TwitterBot):
     def on_mention(self, tweet, prefix):
         reply_user = tweet['user']['screen_name']
         if 'media' not in tweet['entities'].keys():
-            while not self.post_tweet(".@{0} Sorry, I don't see an image.".format(reply_user), reply_to=tweet):
                 pass
         else:
             reply_img = module.main(tweet)
