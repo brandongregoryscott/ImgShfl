@@ -2,7 +2,8 @@ import io
 import random
 import logging
 import sys
-
+import ast
+import os
 from twitterbot import TwitterBot, ignore
 
 import imgshfl as module
@@ -19,52 +20,45 @@ class Bot(TwitterBot):
         ############################
         # REQUIRED: LOGIN DETAILS! #
         ############################
-        self.config['api_key'] = ''
-        self.config['api_secret'] = ''
-        self.config['access_key'] = ''
-        self.config['access_secret'] = ''
+        self.config['api_key'] = os.environ['API_KEY']
+        self.config['api_secret'] = os.environ['API_SECRET']
+        self.config['access_key'] = os.environ['ACCESS_KEY']
+        self.config['access_secret'] = os.environ['ACCESS_SECRET']
 
         ######################################
         # SEMI-OPTIONAL: OTHER CONFIG STUFF! #
         ######################################
 
         # how often to tweet, in seconds
-        self.config['tweet_interval'] = 60 * 60  # default: 30 minutes
-
-        # use this to define a (min, max) random range of how often to tweet
-        # e.g., self.config['tweet_interval_range'] = (5*60, 10*60) # tweets every 5-10 minutes
-        self.config['tweet_interval_range'] = (45 * 60, 75 * 60)
+        self.config['tweet_interval'] = ast.literal_eval(os.getenv('TWEET_INTERVAL', 60 * 30))  # default: 30 minutes
 
         # only reply to tweets that specifically mention the bot
-        self.config['reply_direct_mention_only'] = False
+        self.config['reply_direct_mention_only'] = ast.literal_eval(os.getenv('REPLY_DIRECT_MENTION_ONLY', False))
 
         # only include bot followers (and original tweeter) in @-replies
-        self.config['reply_followers_only'] = True
+        self.config['reply_followers_only'] = ast.literal_eval(os.getenv('REPLY_FOLLOWERS_ONLY', False))
 
         # fav any tweets that mention this bot?
-        self.config['autofav_mentions'] = False
+        self.config['autofav_mentions'] = ast.literal_eval(os.getenv('AUTOFAV_MENTIONS', False))
 
         # fav any tweets containing these keywords?
-        self.config['autofav_keywords'] = []
+        self.config['autofav_keywords'] = ast.literal_eval(os.getenv('AUTOFAV_KEYWORDS', list()))
 
         # follow back all followers?
-        self.config['autofollow'] = False
+        self.config['autofollow'] = ast.literal_eval(os.getenv('AUTOFOLLOW', False))
 
         ###########################################
         # CUSTOM: your bot's own config variables! #
         ###########################################
 
-        self.config['bots'] = ['imgavgbot', 'artyabstract', 'artycrush', 'artycurve', 'abstractedbot']
-        self.config['tags'] = ['Here, take this image - it\'s your problem now!',
-                               'I did the best I could. Can you take it from here?',
-                               'Here you go.']
-        self.config['responses'] = ['Here, take this image - you wanted it!',
-                                    'I did the best I could.',
-                                    'Is this what you wanted?',
-                                    'This image is pretty shuffled now.',
-                                    'Jumbled, at best.',
-                                    'All shuffled up, this is what your image looks like.',
-                                    'Everything feels a little jumbled now.']
+        self.config['bots'] = ast.literal_eval(os.getenv('BOTS', list()))
+        self.config['tags'] = ast.literal_eval(os.getenv('TAGS', list()))
+        self.config['responses'] = ast.literal_eval(os.environ['RESPONSES'])
+
+        if os.environ.get('LAST_MENTION_ID') is not None:
+            self.state['last_mention_id'] = ast.literal_eval(os.environ['LAST_MENTION_ID'])
+        if os.environ.get('LAST_MENTION_TIME') is not None:
+            self.state['last_mention_time'] = ast.literal_eval(os.environ['LAST_MENTION_TIME'])
 
     def on_scheduled_tweet(self):
         return
