@@ -1,0 +1,14 @@
+[[source]]
+url = 'https://pypi.python.org/simple'
+verify_ssl = true
+name = 'pypi'
+
+
+[requires]
+python_version = "3.5"
+
+
+[packages]
+PIL = { file = 'https://github.com/python-pillow/Pillow/archive/4.1.1.zip' }
+requests = { version = '>2.11.1', index='pypi' }
+twitterbot = { git = 'https://github.com/brandongregoryscott/twitterbot.git', editable = true }

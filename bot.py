@@ -30,29 +30,29 @@ class Bot(TwitterBot):
         ######################################
 
         # how often to tweet, in seconds
-        self.config['tweet_interval'] = ast.literal_eval(os.getenv('TWEET_INTERVAL', 60 * 30))  # default: 30 minutes
+        self.config['tweet_interval'] = ast.literal_eval(os.getenv('TWEET_INTERVAL', '1800'))  # default: 30 minutes
 
         # only reply to tweets that specifically mention the bot
-        self.config['reply_direct_mention_only'] = ast.literal_eval(os.getenv('REPLY_DIRECT_MENTION_ONLY', False))
+        self.config['reply_direct_mention_only'] = ast.literal_eval(os.getenv('REPLY_DIRECT_MENTION_ONLY', 'False'))
 
         # only include bot followers (and original tweeter) in @-replies
-        self.config['reply_followers_only'] = ast.literal_eval(os.getenv('REPLY_FOLLOWERS_ONLY', False))
+        self.config['reply_followers_only'] = ast.literal_eval(os.getenv('REPLY_FOLLOWERS_ONLY', 'False'))
 
         # fav any tweets that mention this bot?
-        self.config['autofav_mentions'] = ast.literal_eval(os.getenv('AUTOFAV_MENTIONS', False))
+        self.config['autofav_mentions'] = ast.literal_eval(os.getenv('AUTOFAV_MENTIONS', 'False'))
 
         # fav any tweets containing these keywords?
-        self.config['autofav_keywords'] = ast.literal_eval(os.getenv('AUTOFAV_KEYWORDS', list()))
+        self.config['autofav_keywords'] = ast.literal_eval(os.getenv('AUTOFAV_KEYWORDS', '[]'))
 
         # follow back all followers?
-        self.config['autofollow'] = ast.literal_eval(os.getenv('AUTOFOLLOW', False))
+        self.config['autofollow'] = ast.literal_eval(os.getenv('AUTOFOLLOW', 'False'))
 
         ###########################################
         # CUSTOM: your bot's own config variables! #
         ###########################################
 
-        self.config['bots'] = ast.literal_eval(os.getenv('BOTS', list()))
-        self.config['tags'] = ast.literal_eval(os.getenv('TAGS', list()))
+        self.config['bots'] = ast.literal_eval(os.getenv('BOTS', '[]'))
+        self.config['tags'] = ast.literal_eval(os.getenv('TAGS', '[]'))
         self.config['responses'] = ast.literal_eval(os.environ['RESPONSES'])
 
         if os.environ.get('LAST_MENTION_ID') is not None:
